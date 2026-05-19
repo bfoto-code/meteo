@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>wx</title>
+  <title>Météo</title>
+  <meta name="description" content="Application météo minimaliste" />
   <meta name="theme-color" content="#f5f2eb" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="wx" />
+  <meta name="apple-mobile-web-app-title" content="Météo" />
   <link rel="manifest" href="manifest.json" />
   <link rel="apple-touch-icon" href="icon-192.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -32,94 +33,61 @@
       color: var(--ink);
       font-family: var(--mono);
       -webkit-font-smoothing: antialiased;
-      overflow: hidden;
     }
 
-    body { min-height: 100dvh; }
-
-    /* ── CAROUSEL ── */
-    #carousel-track {
-      display: flex;
-      height: 100dvh;
-      transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      will-change: transform;
-    }
-    #carousel-track.no-transition { transition: none; }
-
-    .city-slide {
-      flex: 0 0 100vw;
-      width: 100vw;
-      height: 100dvh;
-      overflow-y: auto;
-      overflow-x: hidden;
-      -webkit-overflow-scrolling: touch;
+    body {
       display: flex;
       flex-direction: column;
-      align-items: center;
+      min-height: 100dvh;
+      padding: env(safe-area-inset-top, 0) env(safe-area-inset-right, 0) env(safe-area-inset-bottom, 0) env(safe-area-inset-left, 0);
     }
 
-    .slide-inner {
+    /* ── LAYOUT ── */
+    #app {
       flex: 1;
       display: flex;
       flex-direction: column;
       padding: 0 28px;
       max-width: 420px;
+      margin: 0 auto;
       width: 100%;
       text-align: center;
-      padding-top: env(safe-area-inset-top, 0);
-      padding-bottom: env(safe-area-inset-bottom, 0);
     }
 
     /* ── HEADER ── */
-    .slide-header {
-      padding-top: 48px;
-      padding-bottom: 20px;
+    header {
+      padding-top: 56px;
+      padding-bottom: 32px;
       border-bottom: 1px solid var(--line);
     }
 
-    .location-display {
-      font-size: 10px;
+    #location-display {
+      font-size: 11px;
+      font-family: var(--mono);
       font-weight: 300;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--dim);
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 7px;
+      gap: 8px;
       transition: color 0.2s;
     }
-    .location-display:active { color: var(--ink); }
+    #location-display:hover { color: var(--ink); }
+    #location-display svg { flex-shrink: 0; }
 
-    .city-name-el {
-      margin-top: 8px;
-      font-size: clamp(26px, 8.5vw, 40px);
+    #city-name {
+      margin-top: 10px;
+      font-size: clamp(28px, 9vw, 42px);
       font-weight: 300;
       letter-spacing: -0.02em;
       line-height: 1;
     }
 
-    /* ── DOTS ── */
-    .dots-row {
-      display: flex;
-      justify-content: center;
-      gap: 6px;
-      padding: 14px 0 0;
-    }
-
-    .dot {
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: var(--line);
-      transition: background 0.2s, transform 0.2s;
-      cursor: pointer;
-    }
-    .dot.active { background: var(--ink); transform: scale(1.2); }
-
     /* ── MAIN TEMP ── */
     .main-block {
-      padding: 32px 0 24px;
+      padding: 36px 0 28px;
       border-bottom: 1px solid var(--line);
     }
 
@@ -130,8 +98,8 @@
       gap: 6px;
     }
 
-    .temp-value {
-      font-size: clamp(68px, 21vw, 92px);
+    #temp-value {
+      font-size: clamp(72px, 22vw, 96px);
       font-weight: 300;
       line-height: 0.9;
       letter-spacing: -0.04em;
@@ -139,15 +107,15 @@
     }
 
     .temp-unit {
-      font-size: 20px;
+      font-size: 22px;
       font-weight: 300;
-      margin-top: 7px;
+      margin-top: 8px;
       color: var(--dim);
     }
 
-    .weather-desc {
-      margin-top: 12px;
-      font-size: 12px;
+    #weather-desc {
+      margin-top: 14px;
+      font-size: 13px;
       font-style: italic;
       font-weight: 300;
       color: var(--dim);
@@ -156,11 +124,11 @@
 
     /* ── DETAILS ── */
     .details-block {
-      padding: 20px 0;
+      padding: 24px 0;
       border-bottom: 1px solid var(--line);
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 18px 16px;
+      gap: 20px 16px;
     }
 
     .detail-item {
@@ -172,6 +140,7 @@
 
     .detail-label {
       font-size: 9px;
+      font-family: var(--mono);
       font-weight: 300;
       letter-spacing: 0.16em;
       text-transform: uppercase;
@@ -179,38 +148,48 @@
     }
 
     .detail-value {
-      font-size: 19px;
+      font-size: 20px;
       font-weight: 300;
       letter-spacing: -0.02em;
     }
 
     /* ── FORECAST ── */
     .forecast-block {
-      padding: 20px 0;
+      padding: 24px 0;
       flex: 1;
     }
 
     .forecast-label {
       font-size: 9px;
+      font-family: var(--mono);
       font-weight: 300;
       letter-spacing: 0.16em;
       text-transform: uppercase;
       color: var(--dim);
-      margin-bottom: 14px;
+      margin-bottom: 16px;
+    }
+
+    .forecast-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
     }
 
     .forecast-day {
       display: grid;
-      grid-template-columns: 52px 1fr auto auto;
+      grid-template-columns: 56px 1fr auto auto;
       align-items: center;
-      gap: 10px;
-      padding: 10px 0;
+      gap: 12px;
+      padding: 11px 0;
       border-bottom: 1px solid var(--line);
+      font-size: 13px;
+      font-weight: 300;
     }
     .forecast-day:last-child { border-bottom: none; }
 
     .fc-day-name {
-      font-size: 9px;
+      font-family: var(--mono);
+      font-size: 10px;
       font-weight: 300;
       letter-spacing: 0.1em;
       text-transform: uppercase;
@@ -221,105 +200,43 @@
     .fc-desc {
       font-style: italic;
       color: var(--dim);
-      font-size: 11px;
+      font-size: 12px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
       text-align: left;
     }
 
-    .fc-low { color: var(--dim); font-size: 11px; }
-    .fc-high { font-size: 14px; font-weight: 400; }
+    .fc-low { color: var(--dim); font-size: 12px; }
+    .fc-high { font-size: 15px; font-weight: 400; }
 
     /* ── FOOTER ── */
-    .slide-footer {
-      padding: 16px 0 28px;
+    footer {
+      padding: 20px 0 32px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    .update-time {
+    #update-time {
       font-size: 9px;
+      font-family: var(--mono);
       font-weight: 300;
       letter-spacing: 0.12em;
       color: var(--dim);
     }
 
-    .footer-actions { display: flex; gap: 16px; align-items: center; }
-
-    .icon-btn {
+    #refresh-btn {
       background: none;
       border: none;
       cursor: pointer;
       color: var(--dim);
       padding: 4px;
-      display: flex;
-      align-items: center;
+      transition: color 0.2s, transform 0.4s;
     }
-    .icon-btn:active { color: var(--ink); }
-    .icon-btn.delete-btn:active { color: var(--red); }
-    .icon-btn.spinning svg { animation: spin 0.8s linear; }
+    #refresh-btn:hover { color: var(--ink); }
+    #refresh-btn.spinning svg { animation: spin 0.8s linear; }
     @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* ── LOADING / ERROR ── */
-    .slide-state {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      font-weight: 300;
-      letter-spacing: 0.1em;
-      color: var(--dim);
-    }
-    .slide-state.error { color: var(--red); }
-    .slide-content { display: flex; flex-direction: column; flex: 1; }
-
-    /* ── ADD SLIDE ── */
-    .add-slide {
-      flex: 0 0 100vw;
-      width: 100vw;
-      height: 100dvh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .add-slide-inner {
-      padding: 0 28px;
-      max-width: 420px;
-      width: 100%;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 28px;
-    }
-
-    .add-label {
-      font-size: 9px;
-      font-weight: 300;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--dim);
-    }
-
-    .add-btn-large {
-      width: 52px;
-      height: 52px;
-      border-radius: 50%;
-      border: 1px solid var(--line);
-      background: none;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--dim);
-      transition: border-color 0.2s, color 0.2s;
-    }
-    .add-btn-large:active { border-color: var(--ink); color: var(--ink); }
 
     /* ── SEARCH OVERLAY ── */
     #search-overlay {
@@ -327,7 +244,7 @@
       position: fixed;
       inset: 0;
       background: var(--bg);
-      z-index: 200;
+      z-index: 100;
       padding: 56px 28px 28px;
       flex-direction: column;
       gap: 16px;
@@ -345,8 +262,9 @@
 
     .search-title {
       font-size: 9px;
+      font-family: var(--mono);
       font-weight: 300;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
       color: var(--dim);
     }
@@ -360,8 +278,9 @@
       font-size: 9px;
       letter-spacing: 0.12em;
       text-transform: uppercase;
+      transition: color 0.2s;
     }
-    #search-close:active { color: var(--ink); }
+    #search-close:hover { color: var(--ink); }
 
     #search-input {
       width: 100%;
@@ -370,392 +289,285 @@
       border-bottom: 1px solid var(--ink);
       padding: 8px 0;
       font-family: var(--mono);
-      font-size: 22px;
+      font-size: 24px;
       font-weight: 300;
       color: var(--ink);
       outline: none;
+      letter-spacing: -0.01em;
     }
     #search-input::placeholder { color: var(--line); }
 
-    #search-results { display: flex; flex-direction: column; overflow-y: auto; }
+    #search-results {
+      display: flex;
+      flex-direction: column;
+      margin-top: 8px;
+    }
 
     .search-result-item {
-      padding: 13px 0;
+      padding: 14px 0;
       border-bottom: 1px solid var(--line);
       cursor: pointer;
       display: flex;
       flex-direction: column;
       gap: 2px;
+      transition: opacity 0.15s;
     }
-    .search-result-item:active { opacity: 0.5; }
+    .search-result-item:hover { opacity: 0.6; }
     .search-result-item:last-child { border-bottom: none; }
 
-    .sri-name { font-size: 15px; font-weight: 300; }
-    .sri-sub { font-size: 9px; font-weight: 300; letter-spacing: 0.1em; color: var(--dim); text-transform: uppercase; }
+    .sri-name { font-size: 16px; font-weight: 300; }
+    .sri-sub { font-size: 9px; font-family: var(--mono); font-weight: 300; letter-spacing: 0.1em; color: var(--dim); text-transform: uppercase; }
 
-    .fade-in { animation: fadeIn 0.4s ease both; }
+    /* ── STATES ── */
+    #loading, #error {
+      flex: 1;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-family: var(--mono);
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      color: var(--dim);
+    }
+    #error { color: var(--red); }
+    #loading.active, #error.active { display: flex; }
+    #weather-content { display: none; }
+    #weather-content.active { display: flex; flex-direction: column; flex: 1; }
+
+    /* ── ANIMATIONS ── */
+    .fade-in {
+      animation: fadeIn 0.5s ease both;
+    }
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(5px); }
+      from { opacity: 0; transform: translateY(6px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
+    /* iOS tap highlight */
     * { -webkit-tap-highlight-color: transparent; }
   </style>
 </head>
 <body>
 
-<div id="carousel-track"></div>
+<div id="app">
+  <div id="loading" class="active">
+    <span>localisation…</span>
+  </div>
+  <div id="error"></div>
+  <div id="weather-content">
+    <header>
+      <div id="location-display" onclick="openSearch()">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+          <circle cx="5" cy="4" r="2.5" stroke="currentColor" stroke-width="1"/>
+          <path d="M5 10C5 10 1 6.5 1 4a4 4 0 018 0c0 2.5-4 6-4 6z" stroke="currentColor" stroke-width="1" fill="none"/>
+        </svg>
+        <span id="location-label">Paris, FR</span>
+      </div>
+      <div id="city-name">Paris</div>
+    </header>
 
+    <div class="main-block">
+      <div class="temp-row">
+        <div id="temp-value">—</div>
+        <div class="temp-unit">°C</div>
+      </div>
+      <div id="weather-desc">—</div>
+    </div>
+
+    <div class="details-block">
+      <div class="detail-item">
+        <div class="detail-label">Ressenti</div>
+        <div class="detail-value" id="feels-like">—</div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-label">Humidité</div>
+        <div class="detail-value" id="humidity">—</div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-label">Vent</div>
+        <div class="detail-value" id="wind">—</div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-label">Précip.</div>
+        <div class="detail-value" id="precip">—</div>
+      </div>
+    </div>
+
+    <div class="forecast-block">
+      <div class="forecast-label">7 jours</div>
+      <div class="forecast-list" id="forecast-list"></div>
+    </div>
+
+    <footer>
+      <div id="update-time">—</div>
+      <button id="refresh-btn" onclick="refreshWeather()" aria-label="Actualiser">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M13.5 8A5.5 5.5 0 112.5 8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+          <path d="M13.5 4v4h-4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </footer>
+  </div>
+</div>
+
+<!-- Search overlay -->
 <div id="search-overlay">
   <div class="search-header">
-    <span class="search-title">Ajouter une ville</span>
+    <span class="search-title">Changer de ville</span>
     <button id="search-close" onclick="closeSearch()">Fermer</button>
   </div>
-  <input type="text" id="search-input" placeholder="Ville…"
-    autocomplete="off" autocorrect="off" spellcheck="false"
-    oninput="onSearchInput(this.value)" />
+  <input
+    type="text"
+    id="search-input"
+    placeholder="Ville…"
+    autocomplete="off"
+    autocorrect="off"
+    spellcheck="false"
+    oninput="onSearchInput(this.value)"
+  />
   <div id="search-results"></div>
 </div>
 
 <script>
+// ── WMO CODE → DESCRIPTION ──────────────────────────────────────────
 const WMO = {
-  0:'Ciel dégagé',1:'Principalement dégagé',2:'Partiellement nuageux',
-  3:'Couvert',45:'Brouillard',48:'Brouillard givrant',
-  51:'Bruine légère',53:'Bruine modérée',55:'Bruine dense',
-  61:'Pluie légère',63:'Pluie modérée',65:'Pluie forte',
-  71:'Neige légère',73:'Neige modérée',75:'Neige forte',
-  77:'Grains de neige',80:'Averses légères',81:'Averses modérées',
-  82:'Averses violentes',85:'Averses de neige',86:'Averses de neige fortes',
-  95:'Orage',96:'Orage avec grêle',99:'Orage violent',
+  0: 'Ciel dégagé', 1: 'Principalement dégagé', 2: 'Partiellement nuageux',
+  3: 'Couvert', 45: 'Brouillard', 48: 'Brouillard givrant',
+  51: 'Bruine légère', 53: 'Bruine modérée', 55: 'Bruine dense',
+  61: 'Pluie légère', 63: 'Pluie modérée', 65: 'Pluie forte',
+  71: 'Neige légère', 73: 'Neige modérée', 75: 'Neige forte',
+  77: 'Grains de neige', 80: 'Averses légères', 81: 'Averses modérées',
+  82: 'Averses violentes', 85: 'Averses de neige', 86: 'Averses de neige fortes',
+  95: 'Orage', 96: 'Orage avec grêle', 99: 'Orage violent',
 };
-const DAYS = ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
 
-let cities = [];
-let currentIndex = 0;
+const DAYS = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
+
+let currentLat = 48.8566;
+let currentLon = 2.3522;
+let currentCity = 'Paris';
+let currentCountry = 'FR';
 let searchTimeout = null;
-let searchCallback = null;
 
-// ── PERSISTENCE ───────────────────────────────────────────────────────
-function saveCities() {
-  localStorage.setItem('weather-cities',
-    JSON.stringify(cities.map(c => ({ lat:c.lat, lon:c.lon, city:c.city, country:c.country }))));
-}
-
-function loadCities() {
-  try { const s = localStorage.getItem('weather-cities'); return s ? JSON.parse(s) : null; } catch { return null; }
-}
-
-// ── INIT ──────────────────────────────────────────────────────────────
-async function init() {
-  const saved = loadCities();
-  if (saved && saved.length > 0) {
-    cities = saved.map(c => ({ ...c, data:null, loading:true, error:null }));
-    renderAll();
-    cities.forEach((_, i) => fetchWeatherForCity(i));
+// ── INIT ────────────────────────────────────────────────────────────
+function init() {
+  const saved = localStorage.getItem('weather-location');
+  if (saved) {
+    const loc = JSON.parse(saved);
+    currentLat = loc.lat;
+    currentLon = loc.lon;
+    currentCity = loc.city;
+    currentCountry = loc.country;
+    fetchWeather();
   } else {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(async pos => {
-        const lat = pos.coords.latitude, lon = pos.coords.longitude;
-        let city = 'Ma position', country = '';
-        try {
-          const r = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&accept-language=fr`);
-          const d = await r.json();
-          city = d.address.city || d.address.town || d.address.village || 'Ma position';
-          country = d.address.country_code?.toUpperCase() || '';
-        } catch {}
-        addCity({ lat, lon, city, country });
-      }, () => addCity({ lat:48.8566, lon:2.3522, city:'Paris', country:'FR' }));
-    } else {
-      addCity({ lat:48.8566, lon:2.3522, city:'Paris', country:'FR' });
-    }
+    navigator.geolocation
+      ? navigator.geolocation.getCurrentPosition(
+          pos => {
+            currentLat = pos.coords.latitude;
+            currentLon = pos.coords.longitude;
+            reverseGeocode(currentLat, currentLon).then(fetchWeather);
+          },
+          () => fetchWeather() // fallback Paris
+        )
+      : fetchWeather();
   }
 }
 
-// ── ADD / DELETE ──────────────────────────────────────────────────────
-function addCity(loc) {
-  cities.push({ ...loc, data:null, loading:true, error:null });
-  const idx = cities.length - 1;
-  saveCities();
-  renderAll();
-  goToSlide(idx, false);
-  fetchWeatherForCity(idx);
-}
-
-function deleteCity(idx) {
-  if (cities.length <= 1) return;
-  cities.splice(idx, 1);
-  saveCities();
-  currentIndex = Math.min(currentIndex, cities.length - 1);
-  renderAll();
-  goToSlide(currentIndex, false);
-}
-
-function replaceCity(idx, loc) {
-  cities[idx] = { ...loc, data:null, loading:true, error:null };
-  saveCities();
-  renderAll();
-  goToSlide(idx, false);
-  fetchWeatherForCity(idx);
-}
-
-// ── FETCH ─────────────────────────────────────────────────────────────
-async function fetchWeatherForCity(idx) {
-  const c = cities[idx];
-  if (!c) return;
-  c.loading = true; c.error = null;
-  updateSlide(idx);
+// ── REVERSE GEOCODE ─────────────────────────────────────────────────
+async function reverseGeocode(lat, lon) {
   try {
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${c.lat}&longitude=${c.lon}`
+    const r = await fetch(
+      `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&accept-language=fr`
+    );
+    const d = await r.json();
+    currentCity = d.address.city || d.address.town || d.address.village || 'Inconnu';
+    currentCountry = d.address.country_code?.toUpperCase() || '';
+  } catch {}
+}
+
+// ── FETCH WEATHER ────────────────────────────────────────────────────
+async function fetchWeather() {
+  showLoading();
+  try {
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${currentLat}&longitude=${currentLon}`
       + `&current=temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,weather_code,precipitation`
       + `&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum`
       + `&timezone=auto&forecast_days=7`;
+
     const r = await fetch(url);
-    if (!r.ok) throw new Error();
-    c.data = await r.json();
-    c.loading = false;
-  } catch {
-    c.loading = false;
-    c.error = 'Impossible de charger la météo.';
+    if (!r.ok) throw new Error('API error');
+    const data = await r.json();
+    renderWeather(data);
+  } catch (e) {
+    showError('Impossible de charger la météo.');
   }
-  updateSlide(idx);
 }
 
-function refreshCity(idx) {
-  const btn = document.querySelector(`#slide-${idx} .refresh-btn`);
-  if (btn) { btn.classList.add('spinning'); setTimeout(() => btn.classList.remove('spinning'), 800); }
-  fetchWeatherForCity(idx);
+function refreshWeather() {
+  const btn = document.getElementById('refresh-btn');
+  btn.classList.add('spinning');
+  setTimeout(() => btn.classList.remove('spinning'), 800);
+  fetchWeather();
 }
 
-// ── RENDER ────────────────────────────────────────────────────────────
-function renderAll() {
-  const track = document.getElementById('carousel-track');
-  track.innerHTML = '';
+// ── RENDER ───────────────────────────────────────────────────────────
+function renderWeather(data) {
+  const c = data.current;
+  const d = data.daily;
 
-  cities.forEach((c, i) => {
-    const slide = document.createElement('div');
-    slide.className = 'city-slide';
-    slide.id = `slide-${i}`;
-    slide.innerHTML = buildSlideHTML(i);
-    track.appendChild(slide);
-  });
+  // Header
+  document.getElementById('city-name').textContent = currentCity;
+  document.getElementById('location-label').textContent =
+    currentCountry ? `${currentCity}, ${currentCountry}` : currentCity;
 
-  // Slide "ajouter"
-  const addSlide = document.createElement('div');
-  addSlide.className = 'add-slide';
-  addSlide.id = 'add-slide';
-  addSlide.innerHTML = `
-    <div class="add-slide-inner">
-      <div class="add-label">Ajouter une ville</div>
-      <button class="add-btn-large" onclick="openSearchAdd()">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-          <line x1="10" y1="3" x2="10" y2="17" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-          <line x1="3" y1="10" x2="17" y2="10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-        </svg>
-      </button>
-      <div class="dots-row" id="dots-add"></div>
-    </div>
-  `;
-  track.appendChild(addSlide);
+  // Main
+  document.getElementById('temp-value').textContent = Math.round(c.temperature_2m);
+  document.getElementById('weather-desc').textContent = WMO[c.weather_code] || '—';
 
-  cities.forEach((_, i) => updateSlide(i));
-  updateDots();
-  applySwipePosition(false);
-}
+  // Details
+  document.getElementById('feels-like').textContent = `${Math.round(c.apparent_temperature)}°`;
+  document.getElementById('humidity').textContent = `${c.relative_humidity_2m}%`;
+  document.getElementById('wind').textContent = `${Math.round(c.wind_speed_10m)} km/h`;
+  document.getElementById('precip').textContent = `${c.precipitation} mm`;
 
-function buildSlideHTML(i) {
-  const canDelete = cities.length > 1;
-  return `
-    <div class="slide-inner">
-      <div class="slide-header">
-        <div class="location-display" onclick="openSearchReplace(${i})">
-          <svg width="9" height="11" viewBox="0 0 9 11" fill="none">
-            <circle cx="4.5" cy="4" r="2" stroke="currentColor" stroke-width="1"/>
-            <path d="M4.5 11C4.5 11 1 7.2 1 4a3.5 3.5 0 017 0c0 3.2-3.5 7-3.5 7z" stroke="currentColor" stroke-width="1" fill="none"/>
-          </svg>
-          <span class="location-label"></span>
-        </div>
-        <div class="city-name-el"></div>
-        <div class="dots-row" id="dots-${i}"></div>
-      </div>
-      <div class="slide-state"></div>
-      <div class="slide-content">
-        <div class="main-block">
-          <div class="temp-row">
-            <div class="temp-value">—</div>
-            <div class="temp-unit">°C</div>
-          </div>
-          <div class="weather-desc">—</div>
-        </div>
-        <div class="details-block">
-          <div class="detail-item"><div class="detail-label">Ressenti</div><div class="detail-value feels-like">—</div></div>
-          <div class="detail-item"><div class="detail-label">Humidité</div><div class="detail-value humidity">—</div></div>
-          <div class="detail-item"><div class="detail-label">Vent</div><div class="detail-value wind">—</div></div>
-          <div class="detail-item"><div class="detail-label">Précip.</div><div class="detail-value precip">—</div></div>
-        </div>
-        <div class="forecast-block">
-          <div class="forecast-label">7 jours</div>
-          <div class="forecast-list"></div>
-        </div>
-        <div class="slide-footer">
-          <div class="update-time">—</div>
-          <div class="footer-actions">
-            ${canDelete ? `<button class="icon-btn delete-btn" onclick="deleteCity(${i})">
-              <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-                <line x1="1.5" y1="1.5" x2="11.5" y2="11.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-                <line x1="11.5" y1="1.5" x2="1.5" y2="11.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-              </svg>
-            </button>` : ''}
-            <button class="icon-btn refresh-btn" onclick="refreshCity(${i})">
-              <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
-                <path d="M13.5 8A5.5 5.5 0 112.5 8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-                <path d="M13.5 4v4h-4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  `;
-}
-
-function updateSlide(idx) {
-  const slide = document.getElementById(`slide-${idx}`);
-  if (!slide) return;
-  const c = cities[idx];
-
-  slide.querySelector('.location-label').textContent = c.country ? `${c.city}, ${c.country}` : c.city;
-  slide.querySelector('.city-name-el').textContent = c.city;
-
-  const stateEl = slide.querySelector('.slide-state');
-  const contentEl = slide.querySelector('.slide-content');
-
-  if (c.loading) {
-    stateEl.textContent = 'chargement…';
-    stateEl.className = 'slide-state';
-    stateEl.style.display = 'flex';
-    contentEl.style.display = 'none';
-    return;
-  }
-  if (c.error) {
-    stateEl.textContent = c.error;
-    stateEl.className = 'slide-state error';
-    stateEl.style.display = 'flex';
-    contentEl.style.display = 'none';
-    return;
-  }
-
-  stateEl.style.display = 'none';
-  contentEl.style.display = 'flex';
-  contentEl.classList.remove('fade-in');
-  void contentEl.offsetWidth;
-  contentEl.classList.add('fade-in');
-
-  const cur = c.data.current, day = c.data.daily;
-  slide.querySelector('.temp-value').textContent = Math.round(cur.temperature_2m);
-  slide.querySelector('.weather-desc').textContent = WMO[cur.weather_code] || '—';
-  slide.querySelector('.feels-like').textContent = `${Math.round(cur.apparent_temperature)}°`;
-  slide.querySelector('.humidity').textContent = `${cur.relative_humidity_2m}%`;
-  slide.querySelector('.wind').textContent = `${Math.round(cur.wind_speed_10m)} km/h`;
-  slide.querySelector('.precip').textContent = `${cur.precipitation} mm`;
-
-  const list = slide.querySelector('.forecast-list');
+  // Forecast
+  const list = document.getElementById('forecast-list');
   list.innerHTML = '';
   for (let i = 0; i < 7; i++) {
-    const d = new Date(day.time[i]);
+    const date = new Date(d.time[i]);
+    const dayName = i === 0 ? 'Auj.' : DAYS[date.getDay()];
+    const desc = WMO[d.weather_code[i]] || '—';
+    const hi = Math.round(d.temperature_2m_max[i]);
+    const lo = Math.round(d.temperature_2m_min[i]);
+
     const row = document.createElement('div');
     row.className = 'forecast-day';
     row.innerHTML = `
-      <span class="fc-day-name">${i === 0 ? 'Auj.' : DAYS[d.getDay()]}</span>
-      <span class="fc-desc">${WMO[day.weather_code[i]] || '—'}</span>
-      <span class="fc-low">${Math.round(day.temperature_2m_min[i])}°</span>
-      <span class="fc-high">${Math.round(day.temperature_2m_max[i])}°</span>
+      <span class="fc-day-name">${dayName}</span>
+      <span class="fc-desc">${desc}</span>
+      <span class="fc-low">${lo}°</span>
+      <span class="fc-high">${hi}°</span>
     `;
     list.appendChild(row);
   }
 
+  // Footer
   const now = new Date();
-  slide.querySelector('.update-time').textContent =
+  document.getElementById('update-time').textContent =
     `màj ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
+
+  showContent();
+
+  // Save location
+  localStorage.setItem('weather-location', JSON.stringify({
+    lat: currentLat, lon: currentLon,
+    city: currentCity, country: currentCountry
+  }));
 }
 
-// ── DOTS ──────────────────────────────────────────────────────────────
-function updateDots() {
-  const total = cities.length + 1;
-  const allDots = document.querySelectorAll('.dots-row');
-  allDots.forEach(container => {
-    container.innerHTML = '';
-    for (let i = 0; i < total; i++) {
-      const dot = document.createElement('div');
-      dot.className = 'dot' + (i === currentIndex ? ' active' : '');
-      const idx = i;
-      dot.onclick = () => goToSlide(idx);
-      container.appendChild(dot);
-    }
-  });
-}
-
-// ── NAVIGATION ────────────────────────────────────────────────────────
-function goToSlide(idx, animate = true) {
-  const total = cities.length + 1;
-  currentIndex = Math.max(0, Math.min(idx, total - 1));
-  applySwipePosition(animate);
-  updateDots();
-}
-
-function applySwipePosition(animate = true) {
-  const track = document.getElementById('carousel-track');
-  if (!animate) track.classList.add('no-transition');
-  track.style.transform = `translateX(-${currentIndex * 100}vw)`;
-  if (!animate) requestAnimationFrame(() => track.classList.remove('no-transition'));
-}
-
-// ── SWIPE ─────────────────────────────────────────────────────────────
-function initSwipe() {
-  const track = document.getElementById('carousel-track');
-  let startX = 0, startY = 0, diffX = 0, active = false, isH = null;
-
-  track.addEventListener('touchstart', e => {
-    startX = e.touches[0].clientX;
-    startY = e.touches[0].clientY;
-    diffX = 0; active = true; isH = null;
-  }, { passive: true });
-
-  track.addEventListener('touchmove', e => {
-    if (!active) return;
-    diffX = e.touches[0].clientX - startX;
-    const diffY = e.touches[0].clientY - startY;
-    if (isH === null) isH = Math.abs(diffX) > Math.abs(diffY);
-    if (!isH) return;
-    e.preventDefault();
-    track.classList.add('no-transition');
-    track.style.transform = `translateX(calc(-${currentIndex * 100}vw + ${diffX}px))`;
-  }, { passive: false });
-
-  track.addEventListener('touchend', () => {
-    if (!active || !isH) { active = false; return; }
-    active = false;
-    track.classList.remove('no-transition');
-    const total = cities.length + 1;
-    if (Math.abs(diffX) > 50) {
-      if (diffX < 0 && currentIndex < total - 1) currentIndex++;
-      else if (diffX > 0 && currentIndex > 0) currentIndex--;
-    }
-    applySwipePosition();
-    updateDots();
-  });
-}
-
-// ── SEARCH ────────────────────────────────────────────────────────────
-function openSearchAdd() {
-  openSearch(loc => addCity(loc));
-}
-
-function openSearchReplace(idx) {
-  openSearch(loc => replaceCity(idx, loc));
-}
-
-function openSearch(cb) {
-  searchCallback = cb;
+// ── SEARCH ───────────────────────────────────────────────────────────
+function openSearch() {
   document.getElementById('search-overlay').classList.add('open');
   setTimeout(() => document.getElementById('search-input').focus(), 100);
 }
@@ -764,59 +576,81 @@ function closeSearch() {
   document.getElementById('search-overlay').classList.remove('open');
   document.getElementById('search-input').value = '';
   document.getElementById('search-results').innerHTML = '';
-  // NE PAS nullifier searchCallback ici — pickResult en a encore besoin
-}
-
-function _clearSearch() {
-  searchCallback = null;
 }
 
 function onSearchInput(value) {
   clearTimeout(searchTimeout);
-  if (value.length < 2) { document.getElementById('search-results').innerHTML = ''; return; }
-  searchTimeout = setTimeout(() => doSearch(value), 350);
-}
-
-async function doSearch(query) {
-  try {
-    const r = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=6&language=fr&format=json`);
-    const data = await r.json();
-    renderResults(data.results || []);
-  } catch {
-    document.getElementById('search-results').innerHTML =
-      '<div style="font-size:11px;color:var(--dim);padding:12px 0">Erreur de recherche</div>';
-  }
-}
-
-function renderResults(results) {
-  const el = document.getElementById('search-results');
-  if (!results.length) {
-    el.innerHTML = '<div style="font-size:11px;color:var(--dim);padding:12px 0">Aucun résultat</div>';
+  if (value.length < 2) {
+    document.getElementById('search-results').innerHTML = '';
     return;
   }
-  el.innerHTML = results.map((r, i) => `
-    <div class="search-result-item" onclick="pickResult(${i})"
-      data-lat="${r.latitude}" data-lon="${r.longitude}"
-      data-city="${encodeURIComponent(r.name)}"
-      data-country="${encodeURIComponent(r.country_code?.toUpperCase() || '')}">
+  searchTimeout = setTimeout(() => searchCity(value), 350);
+}
+
+async function searchCity(query) {
+  try {
+    const r = await fetch(
+      `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=5&language=fr&format=json`
+    );
+    const data = await r.json();
+    renderSearchResults(data.results || []);
+  } catch {
+    document.getElementById('search-results').innerHTML =
+      '<div style="font-size:12px;font-family:var(--mono);color:var(--dim);padding:12px 0">Erreur de recherche</div>';
+  }
+}
+
+function renderSearchResults(results) {
+  const container = document.getElementById('search-results');
+  if (!results.length) {
+    container.innerHTML =
+      '<div style="font-size:12px;font-family:var(--mono);color:var(--dim);padding:12px 0">Aucun résultat</div>';
+    return;
+  }
+  container.innerHTML = results.map((r, i) => `
+    <div class="search-result-item" onclick="selectCity(${i})"
+         data-lat="${r.latitude}" data-lon="${r.longitude}"
+         data-city="${encodeURIComponent(r.name)}"
+         data-country="${encodeURIComponent(r.country_code?.toUpperCase() || '')}">
       <span class="sri-name">${r.name}</span>
       <span class="sri-sub">${[r.admin1, r.country].filter(Boolean).join(' — ')}</span>
     </div>
   `).join('');
 }
 
-function pickResult(i) {
-  const item = document.querySelectorAll('.search-result-item')[i];
-  const loc = {
-    lat: parseFloat(item.dataset.lat),
-    lon: parseFloat(item.dataset.lon),
-    city: decodeURIComponent(item.dataset.city),
-    country: decodeURIComponent(item.dataset.country),
-  };
-  const cb = searchCallback;
+function selectCity(index) {
+  const items = document.querySelectorAll('.search-result-item');
+  const item = items[index];
+  currentLat = parseFloat(item.dataset.lat);
+  currentLon = parseFloat(item.dataset.lon);
+  currentCity = decodeURIComponent(item.dataset.city);
+  currentCountry = decodeURIComponent(item.dataset.country);
   closeSearch();
-  _clearSearch();
-  if (cb) cb(loc);
+  fetchWeather();
+}
+
+// ── UI STATES ────────────────────────────────────────────────────────
+function showLoading() {
+  document.getElementById('loading').classList.add('active');
+  document.getElementById('error').classList.remove('active');
+  document.getElementById('weather-content').classList.remove('active');
+}
+
+function showError(msg) {
+  document.getElementById('loading').classList.remove('active');
+  document.getElementById('error').textContent = msg;
+  document.getElementById('error').classList.add('active');
+  document.getElementById('weather-content').classList.remove('active');
+}
+
+function showContent() {
+  document.getElementById('loading').classList.remove('active');
+  document.getElementById('error').classList.remove('active');
+  const wc = document.getElementById('weather-content');
+  wc.classList.add('active');
+  wc.classList.remove('fade-in');
+  void wc.offsetWidth;
+  wc.classList.add('fade-in');
 }
 
 // ── SERVICE WORKER ────────────────────────────────────────────────────
@@ -824,6 +658,7 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').catch(() => {});
 }
 
+// ── START ─────────────────────────────────────────────────────────────
 init();
 </script>
 </body>
